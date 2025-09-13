@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Main Page</title>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500" style="border:1px solid black;"></canvas>
+    <button onclick="toggleDiamonds()">Press Me</button>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+// Start with the diamond hidden
+var cube = false;
+
+function draw(){
+    ctx.clearRect(0, 0, 500, 500);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, 500, 500);
+    if (!cube) { return; }
+
+    ctx.beginPath();
+    ctx.moveTo(250, 225);   // Top
+    ctx.lineTo(300, 250);   // Right 
+    ctx.lineTo(250, 275);   // Bottom 
+    ctx.lineTo(200, 250);   // Left 
+    ctx.closePath();        // Back 
+    ctx.stroke();
+
+    // Left: top to bottom 
+    ctx.beginPath();
+    ctx.moveTo(200, 185);
+    ctx.lineTo(200, 250);
+    ctx.stroke();
+
+    // Bottom : top to bottom 
+    ctx.beginPath();
+    ctx.moveTo(250, 160);
+    ctx.lineTo(250, 275);
+    ctx.stroke();
+
+    // Right: top to bottom
+    ctx.beginPath();
+    ctx.moveTo(300, 185);
+    ctx.lineTo(300, 250);
+    ctx.stroke();
+
+    // Upper diamond
+    ctx.beginPath();
+    ctx.moveTo(250, 160);   // Top
+    ctx.lineTo(300, 185);   // Right 
+    ctx.lineTo(250, 210);   // Bottom 
+    ctx.lineTo(200, 185);   // Left 
+    ctx.closePath();        // Back to start
+    ctx.stroke();
+}
+
+window.toggleDiamonds = function(){
+    cube = !cube;
+    draw();
+    return cube;
+};
+
+draw();
+
+</script>
+</body>
+</html>
