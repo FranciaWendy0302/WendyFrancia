@@ -1,71 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cube</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cube Generator</title>
 </head>
 <body>
-    <canvas id="canvas" width="500" height="500" style="border:1px solid black;"></canvas>
-    <button onclick="toggleDiamonds()">Press Me</button>
+  <h2>Draw Your Cube</h2>
+
+  <label>Width: <input type="number" id="cubeWidth" value="0"></label> <br>
+  <label>Height: <input type="number" id="cubeHeight" value="0"></label><br>
+  <label>Length: <input type="number" id="cubeLength" value="0"></label>
+  <button onclick="drawCube()">Generate Cube</button>
+
+  <br><br>
+  <canvas id="canvas" width="500" height="500" style="border:1px solid black;"></canvas>
+
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-var cube = false;
+function drawCube() {
 
-function draw(){
-    ctx.clearRect(0, 0, 500, 500);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, 500, 500);
-    if (!cube) { return; }
+  const w = parseInt(document.getElementById('cubeWidth').value);
+  const h = parseInt(document.getElementById('cubeHeight').value);
+  const l = parseInt(document.getElementById('cubeLength').value);
 
-    ctx.beginPath();
-    ctx.moveTo(250, 225);   // Top
-    ctx.lineTo(300, 250);   // Right 
-    ctx.lineTo(250, 275);   // Bottom 
-    ctx.lineTo(200, 250);   // Left 
-    ctx.closePath();       
-    ctx.stroke();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Left: top to bottom 
-    ctx.beginPath();
-    ctx.moveTo(200, 185);
-    ctx.lineTo(200, 250);
-    ctx.stroke();
 
-    // Bottom : top to bottom 
-    ctx.beginPath();
-    ctx.moveTo(250, 160);
-    ctx.lineTo(250, 275);
-    ctx.stroke();
+  const cx = 250, cy = 250;
 
-    // Right: top to bottom
-    ctx.beginPath();
-    ctx.moveTo(300, 185);
-    ctx.lineTo(300, 250);
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.rect(cx, cy, w, h);
+  ctx.stroke();
 
-    // Upper diamond
-    ctx.beginPath();
-    ctx.moveTo(250, 160);   // Top
-    ctx.lineTo(300, 185);   // Right 
-    ctx.lineTo(250, 210);   // Bottom 
-    ctx.lineTo(200, 185);   // Left 
-    ctx.closePath();        
-    ctx.stroke();
+ 
+  ctx.beginPath();
+  ctx.rect(cx - l, cy - l, w, h);
+  ctx.stroke();
+
+
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);               // front top-left
+  ctx.lineTo(cx - l, cy - l);       // back top-left
+
+  ctx.moveTo(cx + w, cy);           // front top-right
+  ctx.lineTo(cx + w - l, cy - l);   // back top-right
+
+  ctx.moveTo(cx, cy + h);           // front bottom-left
+  ctx.lineTo(cx - l, cy + h - l);   // back bottom-left
+
+  ctx.moveTo(cx + w, cy + h);       // front bottom-right
+  ctx.lineTo(cx + w - l, cy + h - l); // back bottom-right
+
+  ctx.stroke();
 }
-
-window.toggleDiamonds = function(){
-    cube = !cube;
-    draw();
-    return cube;
-};
-
-draw();
-
 </script>
 </body>
 </html>
-
-
